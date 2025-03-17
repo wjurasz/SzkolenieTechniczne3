@@ -13,13 +13,11 @@ namespace SzkolenieTechniczne.Geo.CrossCutting.Dtos
     {
         public Guid Id { get; set; }
 
-
-        [LocalizedStringRequired]
-        [LocalizedStringLenght(32)]
+        [LocalizedStringRequiredAttribute]
+        [LocalizedStringLenghtAttribute(64)]
         public LocalizedString Name { get; set; }
 
-        [MaxLength(256)]
-        [MinLength(1)]
-        public string City { get; set; }
+        [Required]
+        public Guid CountryId { get; set; }
     }
 }

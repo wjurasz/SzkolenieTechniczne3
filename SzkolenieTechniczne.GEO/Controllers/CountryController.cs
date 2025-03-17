@@ -1,12 +1,50 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SzkolenieTechniczne.Geo.CrossCutting.Dtos;
+using SzkolenieTechniczne.GEO.Services;
 
-namespace SzkolenieTechniczne.GEO.Controllers
+[Route("geo")]
+public class CountryController : ControllerBase
 {
-    public class CountryController : Controller
+    private readonly CountryService _countryService;
+
+    public CountryController(CountryService countryService)
     {
-        public IActionResult Index()
+        _countryService = countryService;
+    }
+
+
+    [HttpGet("countries")]
+    public async Task<IEnumerable<CountryDto>> Read()
+    {
+        var aa = 
+        await _countryService.Get();
+        return aa;
+    }
+
+    [HttpGet("countries/{id}")]
+    public async Task<IActionResult> ReadById(Guid id)
+    {
+        var cityDto = await _countryService.GetById(id);
+
+        if (cityDto == null)
         {
-            return View();
+            return NotFound();
         }
+
+        return Ok(cityDto);
+    }
+
+
+    [HttpPost("country")]
+    public async Task<IActionResult> Create([FromBody] CountryDto dto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var operationResult = await _countryService.Create(dto);
+
+        return Ok(operationResult.Result);
     }
 }

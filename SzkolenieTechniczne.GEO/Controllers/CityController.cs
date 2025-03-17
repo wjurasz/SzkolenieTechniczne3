@@ -1,12 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using SzkolenieTechniczne.Geo.CrossCutting.Dtos;
+using SzkolenieTechniczne.GEO.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
-namespace SzkolenieTechniczne.GEO.Controllers
+[Route("geo")]
+public class CityController : ControllerBase
 {
-    public class CityController : Controller
+    private readonly CityService _cityService;
+
+    public CityController(CityService cityService)
     {
-        public IActionResult Index()
+        _cityService = cityService;
+    }
+
+    [HttpGet("cities")]
+    public async Task<IEnumerable<CityDto>> Read() => await _cityService.Get();
+
+    [HttpGet("cities/{id}")]
+    public async Task<IActionResult> ReadById(Guid id)
+    {
+        var cityDto = await _cityService.GetById(id);
+
+        if (cityDto == null)
         {
-            return View();
+            return NotFound();
         }
+
+        return Ok(cityDto);
+    }
+
+    [HttpPost("city")]
+    public async Task<IActionResult> Create([FromBody] CityDto dto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var operationResult = await _cityService.Create(dto);
+
+        return Ok(operationResult.Result);
     }
 }
