@@ -10,7 +10,9 @@ namespace SzkolenieTechniczne.GEO.Extensions
             return new Country
             {
                 Id = dto.Id,
-                Alpha3Code = dto.Alpha3Code
+                Alpha3Code = dto.Alpha3Code,
+                Translations = dto.Name.Select(x => new CountryTranslation() 
+                { CountryId = dto.Id, LanguageCode = x.Key, Name = x.Value }).ToList()
             };
         }
     }
