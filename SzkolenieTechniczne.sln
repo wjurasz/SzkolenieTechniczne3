@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SzkolenieTechniczne.Company
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SzkolenieTechniczne.Company.Storage", "SzkolenieTechniczne.Company.Storage\SzkolenieTechniczne.Company.Storage.csproj", "{07E773C0-BF08-44DE-B35B-D23E09F73164}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SzkolenieTechniczne.Common.API", "SzkolenieTechniczne.Common.API\SzkolenieTechniczne.Common.API.csproj", "{4D6AFFCE-6645-4D1D-A7F6-15F430DDFFEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{07E773C0-BF08-44DE-B35B-D23E09F73164}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07E773C0-BF08-44DE-B35B-D23E09F73164}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07E773C0-BF08-44DE-B35B-D23E09F73164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D6AFFCE-6645-4D1D-A7F6-15F430DDFFEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D6AFFCE-6645-4D1D-A7F6-15F430DDFFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D6AFFCE-6645-4D1D-A7F6-15F430DDFFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D6AFFCE-6645-4D1D-A7F6-15F430DDFFEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,5 +85,6 @@ Global
 		{36053573-43E4-4BFD-8382-4D93FC1A6FF2} = {A9EAF48D-BBFF-4B30-9907-EA468E1069C8}
 		{C7DCF151-7E57-40A2-BECB-EFB883BE03EC} = {A9EAF48D-BBFF-4B30-9907-EA468E1069C8}
 		{07E773C0-BF08-44DE-B35B-D23E09F73164} = {A9EAF48D-BBFF-4B30-9907-EA468E1069C8}
+		{4D6AFFCE-6645-4D1D-A7F6-15F430DDFFEE} = {B803832A-AB89-4257-A261-65BDAD2D84D1}
 	EndGlobalSection
 EndGlobal

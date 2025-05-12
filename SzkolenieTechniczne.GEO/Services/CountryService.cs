@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SzkolenieTechniczne.Common.API.Service;
 using SzkolenieTechniczne.Common.CrossCutting.Dtos;
 using SzkolenieTechniczne.Common.CrossCutting.Enums;
 using SzkolenieTechniczne.Geo.CrossCutting.Dtos;
@@ -8,50 +9,36 @@ using SzkolenieTechniczne.GEO.Extensions;
 
 namespace SzkolenieTechniczne.GEO.Services
 {
-    public class CountryService
+    public class CountryService : CrudServiceBase<GeoDbContext, Country, CountryDto>
     {
         private GeoDbContext _geoDbContext;
 
-        public CountryService(GeoDbContext geoDbContext)
+        public CountryService(GeoDbContext geoDbContext) : base(geoDbContext)
         {
             _geoDbContext = geoDbContext;
         }
 
-        public async Task<CountryDto> GetById(Guid Id)
+        public async Task<CountryDto> GetById(Guid id)
         {
-            var country = await _geoDbContext
-                .Set<Country>()
-                .Include(x => x.Translations)
-                .AsNoTracking()
-                .Where(e => e.Id!.Equals(Id))
-                .SingleOrDefaultAsync();
+            var country = await base.GetById(id);
 
             return country.ToDto();
         }
 
         public async Task<IEnumerable<CountryDto>> Get()
         {
-            var cities = await _geoDbContext
-                .Set<Country>()
-                .Include(x => x.Translations)
-                .AsNoTracking()
-                .Select(e => e.ToDto())
-                .ToListAsync();
+            var cities = await base.Get();
 
-            return cities;
+            return cities.Select(c => c.ToDto());
         }
 
         public async Task<CrudOperationResult<CountryDto>> Create(CountryDto dto)
         {
             var entity = dto.ToEntity();
 
-            _geoDbContext
-                .Set<Country>()
-                .Add(entity);
+            var entityId = await base.Create(entity);
 
-            await _geoDbContext.SaveChangesAsync();
-
-            var newDto = await GetById(entity.Id);
+            var newDto = await GetById(entityId);
 
             return new CrudOperationResult<CountryDto>
             {
@@ -59,9 +46,18 @@ namespace SzkolenieTechniczne.GEO.Services
                 Status = CrudOperationResultStatus.Success
             };
         }
+        public async Task<CrudOperationResult<CountryDto>> Delete(Guid id)
+        {
+            return await base.Delete(id);
+        }
+
+        public async Task<CrudOperationResult<CountryDto>> Update(CountryDto dto)
+        {
+            var entity = dto.ToEntity();
+            return await base.Update(entity);
+        }
 
 
-        
 
     }
 }

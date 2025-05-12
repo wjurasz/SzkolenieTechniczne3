@@ -1,4 +1,5 @@
-﻿using SzkolenieTechniczne.Company.Services;
+﻿using SzkolenieTechinczne.Company.Resolvers;
+using SzkolenieTechniczne.Company.Services;
 using SzkolenieTechniczne.Geo.Storage;
 
 namespace SzkolenieTechinczne.Company.Extensions
@@ -10,6 +11,7 @@ namespace SzkolenieTechinczne.Company.Extensions
             serviceCollection.AddTransient<JobPositionService>();
             serviceCollection.AddTransient<CompanyService>();
             serviceCollection.AddDbContext<CompanyDbContext, CompanyDbContext>();
+            serviceCollection.AddTransient<CountryIntegrationDataResolver>();
             return serviceCollection;   
         }
     }

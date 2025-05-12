@@ -5,57 +5,54 @@ using SzkolenieTechniczne.Geo.CrossCutting.Dtos;
 using SzkolenieTechniczne.Geo.Storage;
 using SzkolenieTechniczne.Geo.Storage.Entities;
 using SzkolenieTechniczne.GEO.Extensions;
+using SzkolenieTechniczne.Common.API.Service;
+
 
 namespace SzkolenieTechniczne.GEO.Services
 {
-    public class CityService
+    public class CityService : CrudServiceBase<GeoDbContext, City, CityDto>
     {
         private GeoDbContext _geoDbContext;
 
-        public CityService(GeoDbContext geoDbContext)
+        public CityService(GeoDbContext geoDbContext) : base(geoDbContext)
         {
             _geoDbContext = geoDbContext;
         }
 
         public async Task<CityDto> GetById(Guid id)
         {
-            var city = await _geoDbContext
-                .Set<City>()
-                .Include(x => x.Translations)
-                .AsNoTracking()
-                .Where(e => e.Id!.Equals(id))
-                .SingleOrDefaultAsync();
-
+            var city = await base.GetById(id);
             return city.ToDto();
         }
 
         public async Task<IEnumerable<CityDto>> Get()
         {
-            var cities = await _geoDbContext
-                .Set<City>()
-                .Include(x => x.Translations)
-                .AsNoTracking()
-                .Select(e => e.ToDto())
-                .ToListAsync();
-            return cities;
+            var cities = await base.Get();
+               
+            return cities.Select(x => x.ToDto());
         }
         public async Task<CrudOperationResult<CityDto>> Create(CityDto dto)
         {
             var entity = dto.ToEntity();
-
-            _geoDbContext
-                .Set<City>()
-                .Add(entity);
-
-            await _geoDbContext.SaveChangesAsync();
-
-            var newDto = await GetById(entity.Id);
+            var entityId = await base.Create(entity);
+            var newDto = await GetById(entityId);
 
             return new CrudOperationResult<CityDto>
             {
                 Result = newDto,
                 Status = CrudOperationResultStatus.Success
             };
+        }
+
+        public async Task<CrudOperationResult<CityDto>> Delete(Guid id)
+        {
+            return await base.Delete(id);
+        }
+
+        public async Task<CrudOperationResult<CityDto>> Update(CityDto dto)
+        {
+            var entity = dto.ToEntity();
+            return await base.Update(entity);
         }
         
     }
